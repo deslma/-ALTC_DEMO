@@ -6,3 +6,13 @@ A **decision boundary** is the line (or surface) where a classifier switches fro
 :class: caution
 This page is a first draft. Worked examples and a notebook will be added on a separate branch and reviewed through a pull request.
 ```
+
+## Example
+
+![](../../unit-1/unit-1-images/ml-fit-example.png)
+
+TODO: replace this with a classification example.
+
+#### Notes for reviewers
+
+This page jumps straight to a lower heading level.
