@@ -1,0 +1,19 @@
+# Book settings
+title: Introduction to Machine Learning (demo module)
+author: Demo Curriculum Team
+
+# Re-run every notebook on each build. A broken cell fails the build.
+execute:
+  execute_notebooks: force
+  timeout: 120
+  allow_errors: false
+
+html:
+  use_repository_button: false
+  use_issues_button: false
+  use_edit_page_button: false
+
+sphinx:
+  config:
+    nb_execution_raise_on_error: true
+    html_last_updated_fmt: "%d %B %Y"

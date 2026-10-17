@@ -1,0 +1,30 @@
+format: jb-book
+root: content/home
+
+chapters:
+  - title: "Unit 1: Learning from data"
+    file: content/unit-1/intro
+    sections:
+      - title: "Lesson 1: What does it mean to learn?"
+        file: content/unit-1/lesson-1/lesson-1
+        sections:
+          - file: content/unit-1/lesson-1/lesson-1a
+            title: "1A: Models, data and error"
+          - file: content/unit-1/lesson-1/lesson-1b
+            title: "1B: Fit a model in Python"
+      - title: "Lesson 2: Training and testing"
+        file: content/unit-1/lesson-2/lesson-2
+        sections:
+          - file: content/unit-1/lesson-2/lesson-2a
+            title: "2A: Why we hold data back"
+      - title: "Summary"
+        file: content/unit-1/summary
+
+  - title: "Unit 2: Classification"
+    file: content/unit-2/intro
+    sections:
+      - title: "Lesson 1: Sorting things into groups"
+        file: content/unit-2/lesson-1/lesson-1
+        sections:
+          - file: content/unit-2/lesson-1/lesson-1a
+            title: "1A: Decision boundaries"
