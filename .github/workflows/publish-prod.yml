@@ -45,6 +45,17 @@ jobs:
           destination_dir: ${{ steps.path.outputs.dir }}
           keep_files: true
 
+      - name: Publish a landing page at the site root
+        run: |
+          mkdir -p landing
+          cat > landing/index.html <<EOF
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=${{ steps.path.outputs.dir }}/">
+          <title>Redirecting</title>
+          <p><a href="${{ steps.path.outputs.dir }}/">Open the module</a></p>
+          EOF
+          
       - name: Prepare Azure upload
         if: env.AZURE_CONNECTION_STRING != ''
         run: mkdir -p "azure/${{ steps.path.outputs.dir }}" && cp -r resources/_build/html/. "azure/${{ steps.path.outputs.dir }}/"
