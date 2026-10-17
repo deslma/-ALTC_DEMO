@@ -22,6 +22,11 @@ $$
 
 A smaller MSE means a better fit. Fitting the model means finding the $w$ and $b$ that make the MSE as small as possible.
 
+```{admonition} Worked example
+:class: important
+Three students studied for 2, 4 and 6 hours and scored 9, 15 and 21. The model $\hat{y} = 3x + 3$ predicts 9, 15 and 21, so every error is zero and the MSE is 0. A model $\hat{y} = 2x + 4$ predicts 8, 12 and 16, giving errors of 1, 3 and 5. Its MSE is $(1 + 9 + 25) / 3 \approx 11.7$.
+```
+
 ```{admonition} Check your understanding
 :class: tip
 If you doubled every parameter in the model, would the MSE necessarily get better, worse or stay the same? Write down your prediction before moving on to 1B.
