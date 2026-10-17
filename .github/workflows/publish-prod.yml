@@ -1,0 +1,59 @@
+name: Publish production
+
+# Merging a pull request into a PROD_* branch publishes the module.
+on:
+  push:
+    branches: ['PROD_*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      # Optional: add this repository secret to also publish to Azure Blob Storage
+      AZURE_CONNECTION_STRING: ${{ secrets.AZURE_CONNECTION_STRING }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Content quality checks
+        run: python scripts/qa_check.py
+
+      - name: Build the book
+        run: jupyter-book build resources
+
+      - name: Work out the publish path
+        id: path
+        # PROD_202627_DEMO_01  ->  PROD/202627/DEMO/01
+        run: echo "dir=${GITHUB_REF_NAME//_//}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to the gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: resources/_build/html
+          destination_dir: ${{ steps.path.outputs.dir }}
+          keep_files: true
+
+      - name: Prepare Azure upload
+        if: env.AZURE_CONNECTION_STRING != ''
+        run: mkdir -p "azure/${{ steps.path.outputs.dir }}" && cp -r resources/_build/html/. "azure/${{ steps.path.outputs.dir }}/"
+
+      - name: Publish to Azure Blob Storage
+        if: env.AZURE_CONNECTION_STRING != ''
+        uses: bacongobbler/azure-blob-storage-upload@main
+        with:
+          source_dir: azure
+          container_name: content
+          connection_string: ${{ secrets.AZURE_CONNECTION_STRING }}
+          overwrite: 'true'

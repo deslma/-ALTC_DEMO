@@ -1,0 +1,4 @@
+# Who must review changes. Replace with real GitHub usernames or teams, e.g.
+#   /resources/        @your-org/designers @your-org/reviewers
+#   /.github/          @your-org/admins
+# Combine with branch protection on PROD_* ("Require review from Code Owners").

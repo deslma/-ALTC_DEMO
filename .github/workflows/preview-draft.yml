@@ -1,0 +1,46 @@
+name: Preview draft
+
+# Every push to a DRAFT_* branch is built and published to its own preview URL.
+on:
+  push:
+    branches: ['DRAFT_*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Content quality checks
+        run: python scripts/qa_check.py
+
+      - name: Build the book
+        run: jupyter-book build resources
+
+      - name: Work out the preview path
+        id: path
+        # DRAFT_DEMO_unit1_edit  ->  DRAFT/DEMO/unit1/edit
+        run: echo "dir=${GITHUB_REF_NAME//_//}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish preview to the gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: resources/_build/html
+          destination_dir: ${{ steps.path.outputs.dir }}
+          keep_files: true
+
+      - name: Show preview address
+        run: echo "Preview ${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/${{ steps.path.outputs.dir }}/" >> "$GITHUB_STEP_SUMMARY"
