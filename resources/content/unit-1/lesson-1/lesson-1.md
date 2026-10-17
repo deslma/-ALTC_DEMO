@@ -8,7 +8,7 @@
 :class: note learning-objectives
 - Describe a model as a simple rule that maps inputs to outputs
 - Explain how error measures the gap between a model and the data
-- Fit and evaluate a straight-line model in Python
+- Fit a straight-line model in Python and evaluate it using mean squared error
 ```
 
 ## Why start with a line?
